@@ -4,9 +4,12 @@
 //
 //=============================================================================
 
-using UnityEngine;
-using UnityEditor;
 using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.XR.Management;
+using UnityEngine;
+using UnityEngine.XR.Management;
 
 [InitializeOnLoad]
 public class SteamVR_Settings : EditorWindow
@@ -122,9 +125,14 @@ public class SteamVR_Settings : EditorWindow
 #if (UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
 			var devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevices(BuildTargetGroup.Standalone);
 #else
-			var devices = UnityEditorInternal.VR.VREditor.GetVREnabledDevicesOnTargetGroup(BuildTargetGroup.Standalone);
+            var devices = (XRGeneralSettingsPerBuildTarget.XRGeneralSettingsForBuildTarget(BuildTargetGroup.Standalone)?
+			.AssignedSettings?
+			.activeLoaders
+			.Select(loader => loader.name)
+			.ToArray())
+			?? new string[0];
 #endif
-			var hasOpenVR = false;
+            var hasOpenVR = false;
 			foreach (var device in devices)
 				if (device.ToLower() == "openvr")
 					hasOpenVR = true;

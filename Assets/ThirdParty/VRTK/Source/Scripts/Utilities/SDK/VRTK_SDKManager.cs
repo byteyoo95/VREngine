@@ -914,8 +914,10 @@ namespace VRTK
             {
                 // The loaded VR Device is actually a VR Device
                 XRSettings.enabled = true;
-
-                if (!XRDevice.isPresent)
+                var displays = new List<XRDisplaySubsystem>();
+                SubsystemManager.GetInstances(displays);
+                bool deviceRunning = displays.Exists(d => d.running);
+                if (!deviceRunning)
                 {
                     // Despite being loaded, the loaded VR Device isn't working correctly
                     int nextSetupIndex = Array.IndexOf(sdkSetups, loadedSetup) + 1;

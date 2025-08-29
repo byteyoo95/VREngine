@@ -44,7 +44,7 @@ ScriptedImporter:
     shaderName: Standard
     materialProperties:
       shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-      shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+      shaderKeywords: 
       lightmapFlags: 4
       texEnvs:
       - name: _BumpMap
@@ -298,7 +298,7 @@ ScriptedImporter:
     shaderName: Standard
     materialProperties:
       shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-      shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+      shaderKeywords: 
       lightmapFlags: 4
       texEnvs:
       - name: _BumpMap

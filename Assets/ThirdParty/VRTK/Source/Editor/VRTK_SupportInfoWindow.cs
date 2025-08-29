@@ -3,9 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
-using UnityEditorInternal;
-using UnityEditorInternal.VR;
+using UnityEditor.XR.Management;
 using UnityEngine;
+using UnityEngine.XR.Management;
 
 namespace VRTK
 {
@@ -59,7 +59,7 @@ namespace VRTK
                 "Versions",
                 () =>
                 {
-                    Append("Unity", InternalEditorUtility.GetFullUnityVersion());
+                    Append("Unity", UnityEditorInternal.InternalEditorUtility.GetFullUnityVersion());
                     Append("VRTK", VRTK_Defines.CurrentVersion + " (may not be correct if source is GitHub)");
 
                     Type steamVRUpdateType = editorAssembly.GetType("SteamVR_Update");
@@ -112,23 +112,33 @@ namespace VRTK
                 {
                     foreach (BuildTargetGroup targetGroup in VRTK_SharedMethods.GetValidBuildTargetGroups())
                     {
-                        bool isVREnabled;
-#if UNITY_5_5_OR_NEWER
-                        isVREnabled = VREditor.GetVREnabledOnTargetGroup(targetGroup);
-#else
-                        isVREnabled = VREditor.GetVREnabled(targetGroup);
-#endif
+                        // XR Plug-in Management replacement for legacy VREditor checks
+                        var settings = XRGeneralSettingsPerBuildTarget.XRGeneralSettingsForBuildTarget(targetGroup);
+                        var loaders = settings?.AssignedSettings?.activeLoaders;
+
+                        bool isVREnabled = loaders != null && loaders.Count > 0;
                         if (!isVREnabled)
                         {
                             continue;
                         }
 
-                        string[] vrEnabledDevices;
-#if UNITY_5_5_OR_NEWER
-                        vrEnabledDevices = VREditor.GetVREnabledDevicesOnTargetGroup(targetGroup);
-#else
-                        vrEnabledDevices = VREditor.GetVREnabledDevices(targetGroup);
-#endif
+                        // Gather enabled "devices" from loader names
+                        string[] vrEnabledDevices = loaders.Select(l => l.name).ToArray();
+
+                        // Optional: normalize to legacy-style identifiers some VRTK code expects
+                        for (int i = 0; i < vrEnabledDevices.Length; i++)
+                        {
+                            string name = vrEnabledDevices[i];
+
+                            if (name.IndexOf("Oculus", StringComparison.OrdinalIgnoreCase) >= 0)
+                                vrEnabledDevices[i] = "Oculus";
+                            else if (name.IndexOf("OpenXR", StringComparison.OrdinalIgnoreCase) >= 0)
+                                vrEnabledDevices[i] = "OpenXR"; // change to "OpenVR" if your downstream logic expects that
+                            else if (name.IndexOf("WindowsMR", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                     name.IndexOf("WMR", StringComparison.OrdinalIgnoreCase) >= 0)
+                                vrEnabledDevices[i] = "WindowsMR";
+                        }
+
                         Append(targetGroup, string.Join(", ", vrEnabledDevices));
                     }
                 }

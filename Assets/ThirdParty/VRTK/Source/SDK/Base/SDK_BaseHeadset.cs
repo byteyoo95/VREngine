@@ -147,7 +147,8 @@ namespace VRTK
 
         protected virtual string ScrapeHeadsetType()
         {
-            string model = CleanPropertyString(XRDevice.model);
+            var hmd = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            string model = CleanPropertyString(hmd.isValid ? hmd.name : string.Empty);
             string deviceName = CleanPropertyString(XRSettings.loadedDeviceName);
             switch (model)
             {
