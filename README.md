@@ -1,4 +1,4 @@
-A Virtual Reality Training System for Automotive Engines Assembly and Disassembly
+A Virtual Reality Assembly and Disassembly Training System for Automotive Engines
 ===============
 
 ## Introduction
