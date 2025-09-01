@@ -53,7 +53,7 @@ namespace VRTK
 
         protected virtual void Awake()
         {
-            fallbackCamera.gameObject.SetActive(false);
+            //fallbackCamera.gameObject.SetActive(false);
             eventSystem.gameObject.SetActive(false);
             chooseButton.gameObject.SetActive(false);
         }

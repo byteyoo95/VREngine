@@ -76,7 +76,7 @@ public class SteamVR_Camera : MonoBehaviour
 			head.localPosition = Vector3.zero;
 			head.localRotation = Quaternion.identity;
 			head.localScale = Vector3.one;
-			head.gameObject.SetActive(false);
+			//head.gameObject.SetActive(false);
 
 			_head = t;
 		}

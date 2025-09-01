@@ -12,7 +12,13 @@ EditorBuildSettings:
     path: Assets/ThirdParty/Fxb/Environmentals/FXB_E5_VR_ChangJing/Scenes/FXB_E5_VR_ChangJing.unity
     guid: dd4a5f38bd045404c939ab8d05baef5f
   m_configObjects:
+    Varjo.XR.Settings: {fileID: 11400000, guid: dff92a64f64e57b44bbff609e721fd98,
+      type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 05c4d2eb18559674597ad5f4ad22056d,
+      type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: e6761b21cf51ca14387220ed85c87bb5,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 2303dc57cefa93c49be81b1f7a5e994c,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 35771618255facd4298fcdf0827242d8,
       type: 2}
